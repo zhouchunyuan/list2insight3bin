@@ -1,13 +1,21 @@
 #!/usr/bin/python
 import tkinter as tk
 from tkinter import filedialog
+from tkinter import ttk
 
 #import writeinsight3
 import writeinsight3new
 import i3dtype
 
 root = tk.Tk()
-root.withdraw()
+
+root.title("Progress...")
+# 定量进度条
+p1 = ttk.Progressbar(root, length=200, mode="determinate", orient=tk.HORIZONTAL)
+p1.grid(row=1,column=1)
+p1["maximum"] = 100
+p1["value"] = 0
+ 
 
 file_path = filedialog.askopenfilename()
 f = open(file_path, 'r')
@@ -30,6 +38,8 @@ print(channelNames,MaxFrameNumber)
 binWriter = writeinsight3new.I3Writer(file_path+".bin",MaxFrameNumber)
 
 for idx, line in enumerate(lines):
+    p1["value"] = idx/len(lines)*100
+    root.update()
     if idx > 0 :
         data = i3dtype.createDefaultI3Data(1)
         field = line.split('\t')
@@ -81,3 +91,5 @@ for idx, line in enumerate(lines):
         binWriter.addMolecules(data)
 binWriter.close()
 f.close()
+
+root.withdraw() # use this to hide main window
