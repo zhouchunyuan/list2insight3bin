@@ -19,13 +19,15 @@ macro "STORM list Action Tool -  CcccD55D57D5aD66D6aD7bD81D85D8aD93Da6DadDbdDc6D
 
 	Dialog.create("Select Pixel Size");
 	Dialog.addHelp(html);
-	Dialog.addChoice("Type:", newArray("160 nm ( EMCCD )", "65 nm ( sCMOS )"));
+	Dialog.addChoice("Type:", newArray("160 nm ( EMCCD )", "162.5 nm ( sCMOS )"));
 	Dialog.show();
 
 	pixelSizeInfo = Dialog.getChoice();
 
 	// default to EMCCD 160 nm
-	if(pixelSizeInfo == "65 nm ( sCMOS )")pixelSize = 65 ;
+	// sCMOS pixel size = 65 nm. But with 0.4x zoom
+	// the final pixel size becomes 162.5
+	if(pixelSizeInfo == "162.5 nm ( sCMOS )")pixelSize = 162.5 ;
 
 	showStatus("Openning molecule list, please wait ...");
 	path = File.openDialog("Select STORM list:txt");
